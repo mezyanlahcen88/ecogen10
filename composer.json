@@ -12,9 +12,12 @@
         "laravel/tinker": "^2.8",
         "laravel/ui": "^4.4",
         "laravelcollective/html": "^6.4",
+        "mpdf/mpdf": "*",
         "proengsoft/laravel-jsvalidation": "^4.8",
         "realrashid/sweet-alert": "^7.1",
-        "spatie/laravel-permission": "^6.4"
+        "spatie/laravel-permission": "^6.4",
+        "yajra/laravel-datatables": "10.0",
+        "yajra/laravel-datatables-oracle": "^10.3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.10",

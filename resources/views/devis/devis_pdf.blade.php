@@ -184,12 +184,12 @@
         <table class="table w-100 mt-10">
             <tr>
                 <th class="w-50">REF</th>
-                <th class="w-50">Désignation & {{utf8_encode("يييي")}}</th>
-                <th class="w-50">Unité</th>
+                <th class="w-50">Désignation & المنتوج</th>
+                {{-- <th class="w-50">Unité</th>
                 <th class="w-50">Qte</th>
                 <th class="w-50">Prix</th>
                 <th class="w-50">HT</th>
-                <th class="w-50">TVA</th>
+                <th class="w-50">TVA</th> --}}
                 <th class="w-50">Total TVA</th>
                 <th class="w-50">Total TTC</th>
 
@@ -198,11 +198,11 @@
             <tr align="center">
                 <td>{{$product->product_code}}</td>
                 <td>{{$product->getDesignation()}}</td>
-                <td>{{$product->unite}}</td>
+                {{-- <td>{{$product->unite}}</td>
                 <td>{{$product->pivot->quantity}}</td>
                 <td>{{$product->price_unit}}</td>
                 <td>{{$product->pivot->TOTAL_HT}}</td>
-                <td>{{$product->pivot->TVA}}</td>
+                <td>{{$product->pivot->TVA}}</td> --}}
                 <td>{{$product->pivot->TOTAL_TVA}}</td>
                 <td>{{$product->pivot->TOTAL_TTC}}</td>
             </tr>

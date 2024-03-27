@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use \Mpdf\Mpdf as PDF;
 use App\Models\Client;
 use App\Dto\CommandDto;
 use App\Models\Command;
 use App\Models\Product;
+// use Barryvdh\DomPDF\PDF;
 use App\Models\Category;
-use Barryvdh\DomPDF\PDF;
 use App\Models\Reglement;
 use App\Forms\CommandForm;
 use Illuminate\Support\Str;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 use App\Services\CrudService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
 use App\Http\Requests\StoreCommandRequest;
 
@@ -325,10 +327,38 @@ class CommandController extends Controller
 
     public function generatePdf($id)
     {
-        $object = Command::with('products')->findOrfail($id)->toArray();
+        $object = Command::with('products')->findOrfail($id);
+        $data = ['devis'=>$object];
+        // $pdf = PDF::loadView('command.command_pdf', $object);
+        // $filename = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
+        // return $pdf->download($filename);
+               // Setup a filename
+               $documentFileName = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
 
-        $pdf = PDF::loadView('command.command_pdf', $object);
-        $filename = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
-        return $pdf->download($filename);
+               // Create the mPDF document
+               $document = new PDF( [
+                   'mode' => 'utf-8',
+                   'format' => 'A4',
+                   'margin_header' => '3',
+                   'margin_top' => '20',
+                   'margin_bottom' => '20',
+                   'margin_footer' => '2',
+               ]);
+
+               // Set some header informations for output
+               $header = [
+                   'Content-Type' => 'application/pdf',
+                   'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'
+               ];
+
+               // Write some simple Content
+               $document->WriteHTML(view('devis.devis_pdf_old', $data));
+               // $document->WriteHTML('<p>Write something, just for fun!</p>');
+
+               // Save PDF on your public storage
+               Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+               // Get file back from storage with the give header informations
+               return Storage::disk('public')->download($documentFileName, 'Request', $header); //
     }
 }
