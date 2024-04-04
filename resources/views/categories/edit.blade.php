@@ -5,6 +5,8 @@
 @stop
 @section('css')
     @include('layouts.includes.form_css')
+ 
+
 @endsection
 @section('page-header')
     @include('components.new_breadcrumb', [
@@ -17,17 +19,6 @@
     ])
 @endsection
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-
     <form action="{{ route('categories.update', $object->id) }}" method="post" id="userForm" enctype="multipart/form-data">
         @csrf
         @method('PUT')

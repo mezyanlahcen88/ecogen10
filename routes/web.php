@@ -33,9 +33,10 @@ Route::get(env('ADMIN_PREFIX'), function () {
 Route::get('/pass', function () {
     return bcrypt('azerty123');
 });
-Route::get('/incdevis', function () {
-    // return checkExpirationDate('2024-12-25');
-    incDevisNumerotation();
+Route::get('/number', function () {
+    // // return checkExpirationDate('2024-12-25');
+    // incDevisNumerotation();
+    return numberToWords(139);
 });
 Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 

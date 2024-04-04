@@ -10,6 +10,7 @@ use App\Enums\StaticOptions;
 use Illuminate\Http\Request;
 use App\Services\CrudService;
 use App\Http\Requests\StoreCategoryRequest;
+use RealRashid\SweetAlert\Facades\Alert;
 
 
 class CategoryController extends Controller
@@ -139,6 +140,9 @@ class CategoryController extends Controller
             dealWithPicture($request,$object,'picture', $request->name,'categories','update');
         }
         $object->save();
+        // Alert::success('Success Title', 'Success Message');
+        notify()->success('Laravel Notify is awesome!');
+        // flash()->addFlash('error', 'There was an issue restoring your account.');
         return redirect()->route('categories.index');
     }
 

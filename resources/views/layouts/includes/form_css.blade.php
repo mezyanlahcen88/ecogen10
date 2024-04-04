@@ -1,3 +1,5 @@
+@include('sweetalert::alert')
+
 {{-- select2 --}}
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/libs/select2/select2.min.css')}}" />
 

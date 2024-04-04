@@ -467,3 +467,67 @@ if (!function_exists('trackinkDeletedDoc')) {
         $client->save();
     }
 }
+
+if (!function_exists('numberToWords')) {
+function numberToWords($nombre) {
+    $unites = array(
+        "zero",
+        "un",
+        "deux",
+        "trois",
+        "quatre",
+        "cinq",
+        "six",
+        "sept",
+        "huit",
+        "neuf",
+      );
+      $dizaines = array(
+        "",
+        "dix",
+        "vingt",
+        "trente",
+        "quarante",
+        "cinquante",
+        "soixante",
+        "soixante",
+        "quatre-vingts",
+        "quatre-vingt-dix",
+      );
+      $centaines = array(
+        "",
+        "cent",
+        "deux cents",
+        "trois cents",
+        "quatre cents",
+        "cinq cents",
+        "six cents",
+        "sept cents",
+        "huit cents",
+        "neuf cents",
+      );
+
+      $texte = "";
+
+      // Traitement des centaines
+      if ($nombre >= 100) {
+        $reste = $nombre % 100;
+        $texte .= $centaines[$nombre / 100] . " ";
+        $nombre = $reste;
+      }
+
+      // Traitement des dizaines et des unités
+      if ($nombre >= 11 && $nombre <= 19) {
+        $texte .= $dizaines[1] . "-" . $unites[$nombre - 11];
+      } else if ($nombre >= 1) {
+        if ($nombre >= 20) {
+          $texte .= $dizaines[$nombre / 10] . " ";
+          $nombre %= 10;
+        }
+        $texte .= $unites[$nombre - 1];
+      }
+
+      return $texte;
+
+}
+}
