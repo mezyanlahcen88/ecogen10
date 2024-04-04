@@ -15,7 +15,7 @@
 </span>
 @enderror
 <div>
-    <span class="text-danger error"  id="error_{{ $column }}"></span>
+    <span class="text-danger error"  id="{{ $column }}_error"></span>
 </div>
 </div>
 

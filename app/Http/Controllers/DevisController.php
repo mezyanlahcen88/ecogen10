@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDevisRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 
 class DevisController extends Controller
@@ -119,9 +120,19 @@ class DevisController extends Controller
     // public function store(StoreDevisRequest $request)
     public function store(Request $request)
     {
-        // $validated = $request->validated();
-        $data = $request->all();
 
+        $data = $request->all();
+        $validator = Validator::make($request->all(), [
+             'client_id' => ['bail', 'required', 'min:3'],
+             'status' => ['bail', 'required', 'min:3'],
+             'status_date' => ['bail', 'required', 'date'],
+             'comment' => ['bail', 'required', 'min:3'],
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
         $devis = new Devis();
         $devis->id = Str::uuid();
         $devis->devis_code = $data['num_devis'];
