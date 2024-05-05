@@ -624,8 +624,8 @@ class LanguageTranslateSeeder extends Seeder
 ['language_id'=>$lang_id,'label'=>'garanty_form_deleted_garanties_list','translation'=>'Liste des garanties supprimées','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_form_manage_deleted_garanties','translation'=>'Gérer les garanties supprimées','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_table_amount','translation'=>'Montant','created_at'=>$now,'updated_at'=>$now],
-['language_id'=>$lang_id,'label'=>'garanty_table_parent_id','translation'=>'Identifiant parent','created_at'=>$now,'updated_at'=>$now],
-['language_id'=>$lang_id,'label'=>'garanty_table_parent_type','translation'=>'Type de parent','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'garanty_table_parent_id','translation'=>'Propriétaire','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'garanty_table_parent_type','translation'=>'Type de propriétaire','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_table_type','translation'=>'Type','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_table_picture','translation'=>'Image','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_table_document_ref','translation'=>'Référence du document','created_at'=>$now,'updated_at'=>$now],
@@ -634,8 +634,8 @@ class LanguageTranslateSeeder extends Seeder
 ['language_id'=>$lang_id,'label'=>'garanty_table_comment','translation'=>'Commentaire','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_table_doe','translation'=>'Date d\'expiration','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_form_amount','translation'=>'Montant','created_at'=>$now,'updated_at'=>$now],
-['language_id'=>$lang_id,'label'=>'garanty_form_parent_id','translation'=>'Identifiant parent','created_at'=>$now,'updated_at'=>$now],
-['language_id'=>$lang_id,'label'=>'garanty_form_parent_type','translation'=>'Type de parent','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'garanty_form_parent_id','translation'=>'Propriétaire','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'garanty_form_parent_type','translation'=>'Type de Propriétaire','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_form_type','translation'=>'Type','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_form_picture','translation'=>'Image','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'garanty_form_document_ref','translation'=>'Référence du document','created_at'=>$now,'updated_at'=>$now],
@@ -757,12 +757,15 @@ class LanguageTranslateSeeder extends Seeder
 ['language_id'=>$lang_id,'label'=>'warehouse_form_deleted_warehouses_list','translation'=>'Liste des depots supprimés','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_form_manage_deleted_warehouses','translation'=>'Gérer les depots supprimés','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_table_name','translation'=>'Nom','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'warehouse_table_type','translation'=>'Type','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_table_address','translation'=>'Adresse','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_table_active','translation'=>'Actif','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_form_name','translation'=>'Nom','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_form_address','translation'=>'Adresse','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_form_name_placeholder','translation'=>'Entrez le nom','created_at'=>$now,'updated_at'=>$now],
 ['language_id'=>$lang_id,'label'=>'warehouse_form_address_placeholder','translation'=>'Entrer l\'adresse','created_at'=>$now,'updated_at'=>$now],
+['language_id'=>$lang_id,'label'=>'warehouse_form_type','translation'=>'Type','created_at'=>$now,'updated_at'=>$now],
+
 
 
 

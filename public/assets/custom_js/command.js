@@ -612,6 +612,11 @@ $(document).ready(function () {
             data: data,
             dataType: "json",
             success: function (data) {
+                if (data.errors) {
+                    $.each(data.errors, function(field, error) {
+                        $('#'+field+'-error').text((error)[0]);
+                    });
+                }
                 if (data.success) {
                     localStorage.removeItem("product_command");
                     loadTableFromLocalStorage();

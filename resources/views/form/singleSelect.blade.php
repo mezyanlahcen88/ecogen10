@@ -14,24 +14,19 @@
             <label for="{{ $column }}"> {{ trans('translation.' . $label) }} &nbsp; <span
                     class="{{ $optional }}">*</span></label>
         @endif
-
         <select class="js-example-basic-single" name="{{ $column }}" id="{{ $id ?? '' }}">
-            <option value="" >{{ trans('translation.general_general_select') }}</option>
-
-                @foreach ($options as $key => $value)
+            <option value="">{{ trans('translation.general_general_select') }}</option>
+            @foreach ($options as $key => $value)
                 @if ($object)
                     <option value="{{ $key }}" {{ $key == $object->$column ? 'selected' : '' }}>
                         {{ $value }}
                     </option>
-                    @else
+                @else
                     <option value="{{ $key }}">
                         {{ $value }}
                     </option>
-            @endif
-
-                @endforeach
-
-
+                @endif
+            @endforeach
         </select>
     </div>
     @error($column)

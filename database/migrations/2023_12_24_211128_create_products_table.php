@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer('tva');
             $table->integer('min_stock');
             $table->string('unite');
-            $table->string('bar_code');
+            $table->string('bar_code')->nullable();
             $table->boolean('stockable')->default(0);
             $table->string('created_by');
             $table->string('stock_methode')->comment('CMUP/FIFO/LIFO');

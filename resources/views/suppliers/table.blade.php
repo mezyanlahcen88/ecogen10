@@ -5,8 +5,8 @@
                 @foreach ($tableRows as $key => $value)
                     <th>{{ trans('translation.' . $model . '_table_' . $value) }} </th>
                 @endforeach
-                <th>Total Garanty</th>
-                <th>Piece Garanty</th>
+                <th>Garantie</th>
+                <th>P.J</th>
                 <th class="sort" data-sort="action">{{ trans('translation.general_general_action') }}
                 </th>
             </tr>

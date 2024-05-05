@@ -2,7 +2,7 @@
     <table id="datatable" class="table nowrap align-middle table-hover table-bordered"  style="width:100%">
                 <thead class="table-light">
                     <tr class="text-center">
-                        <th>#</th>
+                        <th>N°</th>
                         <th>{{ trans('translation.product_table_picture') }}</th>
                        @foreach ($tableRows as $key => $value)
                             <th>{{ trans('translation.'.$model.'_table_' . $value) }} </th>

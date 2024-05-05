@@ -13,6 +13,7 @@
         "laravel/ui": "^4.4",
         "laravelcollective/html": "^6.4",
         "mckenziearts/laravel-notify": "^2.4",
+        "mpdf/mpdf": "^8.2",
         "php-flasher/flasher-laravel": "^1.15",
         "proengsoft/laravel-jsvalidation": "^4.8",
         "realrashid/sweet-alert": "^7.1",

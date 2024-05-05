@@ -22,7 +22,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <td>{{$object->parent_id}}</td>
+                            <td>{{$object->client->name_fr}}</td>
                             @foreach ($tableRows as $key => $value)
                                  <td> {{ $object->$key }}</td>
                             @endforeach

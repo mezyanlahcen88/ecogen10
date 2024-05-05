@@ -178,7 +178,7 @@
                 <td width="15%" class="fw-bold">$699</td>
             </tr>
             <tr>
-                <td colspan="4" class="total-heading">Total Amount - <small>Inc. all vat/tax</small> :</td>
+                <td colspan="4" class="total-heading">حسان Amount - <small>Inc. all vat/tax</small> :</td>
                 <td colspan="1" class="total-heading">$14699</td>
             </tr>
         </tbody>

@@ -240,17 +240,25 @@
                         </div>
                     </div>
 
-                    @include('form.singleSelect', [
-                        'cols' => 'col-md-12 ',
-                        'column' => 'warehouse_id',
-                        'isReload' => false,
-                        'label' => 'product_form_warehouse_id',
-                        'optional' => 'text-danger',
-                        'divID' => 'warehouse_id',
-                        'options' => $warehouses,
-                        'object' => false,
-                    ])
-                </div>
+                    <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12 my-1">
+                        <div class="form-group" autocomplete="false">
+                            <label for="warehouse_id"> {{ trans('translation.product_form_warehouse_id') }} &nbsp; <span
+                                class="text-danger">*</span></label>
+                            <select class="js-example-basic-single" name="warehouse_id">
+                                <option value="" selected>{{ trans('translation.general_general_select') }} </option>
+                                @foreach ($warehouses as $warehouse)
+                                    <option value="{{ $warehouse->id }}"
+                                        {{ $warehouse->type  == 'Principal' ? 'selected' : '' }}>
+                                        {{ $warehouse->name}}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        @error('warehouse_id')
+                            <p class="text-danger"><small>{{ $message }}</small></p>
+                        @enderror
+                        <span id="type-error" class="help-block error-help-block"></span>
+                    </div>
             </div>
 
             <div class="col-lg-12">
@@ -268,5 +276,5 @@
     @include('layouts.includes.form_js')
     <script src="{{ asset('assets/custom_js/validate_number.js') }}"></script>
     <script src="{{ asset('assets/custom_js/categories_scategories.js') }}"></script>
-    {{-- {!! JsValidator::formRequest('App\Http\Requests\StoreProductRequest') !!} --}}
+    {!! JsValidator::formRequest('App\Http\Requests\StoreProductRequest') !!}
 @endsection

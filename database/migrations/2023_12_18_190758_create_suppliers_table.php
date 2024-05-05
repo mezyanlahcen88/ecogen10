@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('suppliers', function (Blueprint $table) {
             $table->uuid('id')->unique();
             $table->string('code_supplier');
-            $table->string('ice');
+            $table->string('ice')->nullable();
             $table->string('name_ar');
             $table->string('name_fr');
             $table->integer('fonction')->nullable();

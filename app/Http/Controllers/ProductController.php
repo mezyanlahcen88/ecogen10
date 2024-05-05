@@ -13,14 +13,16 @@ use App\Enums\StaticOptions;
 use Illuminate\Http\Request;
 use App\Services\CrudService;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreProductRequest;
+use App\Services\AdvancedCrudService;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Requests\StoreProductRequest;
+use Illuminate\Validation\ValidationException;
 
 class ProductController extends Controller
 {
     public $staticOptions;
     public $crudService;
-    public function __construct(CrudService $crudService, StaticOptions $staticOptions)
+    public function __construct(AdvancedCrudService $crudService, StaticOptions $staticOptions)
     {
         $this->middleware('permission:product-list|product-create|product-edit|product-show|product-delete', ['only' => ['index']]);
         $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
@@ -42,13 +44,15 @@ class ProductController extends Controller
     public function index()
     {
         $tableRows = (new Product())->getRowsTable();
-        $objects = Product::get();
+        $objects = Product::orderBy('created_at','desc')->get();
         return view('products.index', compact('tableRows', 'objects'));
     }
 
     public function getProductsJson()
     {
-        $products = Product::with('category')->with('scategory');
+        $products = Product::with('category')
+        ->with('scategory')
+        ->orderBy('created_at','desc');
         return Datatables($products)
 
         // ->filterColumn('user.name' , function($query , $keyword){
@@ -102,7 +106,7 @@ class ProductController extends Controller
         $categories = Category::where('parent_id',null)->pluck('name','id');
         $scategories = Category::where('parent_id','!=',null)->pluck('name','id');
         $brands = Brand::pluck('name','id');
-        $warehouses = Warehouse::pluck('name','id');
+        $warehouses = Warehouse::get();
         $units = $this->staticOptions::UNITS;
         $stock_methods = $this->staticOptions::STOCK_METHODS;
         return view('products.create', compact('categories','scategories','brands','units','warehouses','stock_methods'));
@@ -114,11 +118,10 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(StoreProductRequest $request)
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        // $validated = $request->validated();
-        // dd($request->all());
+        try {
+            $validated = $request->validated();
         $object = new Product();
         $object->id = Str::uuid();
         $object->product_code = $request->product_code;
@@ -137,10 +140,8 @@ class ProductController extends Controller
         $object->unite = $request->unite;
         $object->warehouse_id = $request->warehouse_id;
         $object->bar_code = $request->bar_code;
-        // $object->stockable = $request->stockable;
         $object->created_by = Auth::id();
         $object->stock_methode = 'CMUP';
-        // $object->archive = 0;
         $object->brand_id = $request->brand_id;
         $object->created_at = $request->created_at;
         $object->updated_at = \Carbon\Carbon::now();
@@ -152,6 +153,15 @@ class ProductController extends Controller
             incProduitNumerotation();
         }
         return redirect()->route('products.index');
+
+            // $this->crudService->storeRecord($model, $request, $model->getFillable(), $model->getFiles(), 'client', 'clients');
+            // if (strpos($request->ref, getPrefix('Client')) !== false) {
+            //     incClientNumerotation();
+            // }
+            // return redirect()->route('products.index');
+        } catch (ValidationException $e) {
+            return redirect()->route('products.create')->withErrors($e->validator)->withInput();
+        }
     }
 
     /**
@@ -177,7 +187,7 @@ class ProductController extends Controller
         $categories = Category::where('parent_id',null)->pluck('name','id');
         $scategories = Category::where('parent_id','!=',null)->pluck('name','id');
         $brands = Brand::pluck('name','id');
-        $warehouses = Warehouse::pluck('name','id');
+        $warehouses = Warehouse::get();
         $units = $this->staticOptions::UNITS;
         $stock_methods = $this->staticOptions::STOCK_METHODS;
         return view('products.edit', compact('object','categories','scategories','brands','units','warehouses','stock_methods'));

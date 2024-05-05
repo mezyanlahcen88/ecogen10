@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Dto\WarehouseDto;
 use App\Models\Warehouse;
-use App\Forms\WarehouseForm;
+use Illuminate\Support\Str;
 use App\Enums\StaticOptions;
+use App\Forms\WarehouseForm;
 use Illuminate\Http\Request;
 use App\Services\CrudService;
 use App\Http\Requests\StoreWarehouseRequest;
@@ -77,8 +78,12 @@ class WarehouseController extends Controller
     public function store(StoreWarehouseRequest $request)
     {
         $validated = $request->validated();
-        $this->crudService->storeRecord(new Warehouse(),$request->except('_token','proengsoft_jsvalidation'));
-
+        $warehouse = new Warehouse();
+        $warehouse->id =Str::uuid();
+        $warehouse->name =$request->name;
+        $warehouse->type =$request->type;
+        $warehouse->address =$request->address;
+        $warehouse->save();
         return redirect()->route('warehouses.index');
         }
 
@@ -102,6 +107,7 @@ class WarehouseController extends Controller
     public function edit($id)
     {
         $object = warehouse::findOrfail($id);
+
         return view('warehouses.edit',compact('object'));
     }
 
@@ -115,7 +121,11 @@ class WarehouseController extends Controller
     public function update(StoreWarehouseRequest $request,string $id)
     {
         $validated = $request->validated();
-        $this->crudService->updateRecord(new Warehouse(),$validated,$id);
+        $object = warehouse::findOrfail($id);
+        $object->name =$request->name;
+        $object->type =$request->type;
+        $object->address =$request->address;
+        $object->save();
         return redirect()->route('warehouses.index');
     }
 

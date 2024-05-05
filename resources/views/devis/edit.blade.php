@@ -29,8 +29,8 @@
                             </div>
                             <div class="col-sm-auto">
                                 <div class="d-flex gap-1 flex-wrap">
-                                    <a href="{{route('devis.ViewDevisInvoice',$object->id)}}" class="btn btn-primary">Voir  devis</a>
-                                    <a href="{{route('devis.printDevisInvoice',$object->id)}}" class="btn btn-success">Imprimer devis</a>
+                                    <a href="{{route('devis.ViewDevisInvoice',$object->id)}}" class="btn btn-primary" target="_blank">Voir  devis</a>
+                                    <a href="{{route('devis.printDevisInvoice',$object->id)}}" class="btn btn-success" target="_blank">Imprimer devis</a>
                                     <button type="button" class="btn btn-warning"> Transfer bon command</button>
                                     <button type="submit" class="btn btn-info storeDevis">
                                         {{ trans('translation.devis_action_edit') }}</button>

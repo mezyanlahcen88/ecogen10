@@ -528,6 +528,17 @@ function numberToWords($nombre) {
       }
 
       return $texte;
+}
 
+if (!function_exists('warehouseType')) {
+    function warehouseType()
+    {
+        $types  = [
+            'Principal' => 'Principal',
+            'Secondaire' => 'Secondaire',
+        ];
+      return $types;
+
+    }
 }
 }

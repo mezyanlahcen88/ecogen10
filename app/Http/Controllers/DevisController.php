@@ -4,19 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Dto\DevisDto;
 use App\Models\Devis;
+use \Mpdf\Mpdf as PDF;
 use App\Models\Client;
 use App\Models\Product;
 use App\Forms\DevisForm;
 use App\Models\Category;
-use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Str;
 use App\Enums\StaticOptions;
 use Illuminate\Http\Request;
 use App\Services\CrudService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreDevisRequest;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
+
 
 class DevisController extends Controller
 {
@@ -117,9 +120,20 @@ class DevisController extends Controller
     // public function store(StoreDevisRequest $request)
     public function store(Request $request)
     {
-        // $validated = $request->validated();
-        $data = $request->all();
 
+        // dd($request->all());
+        $data = $request->all();
+        $validator = Validator::make($request->all(), [
+             'client' => ['bail', 'required'],
+             'status' => ['bail', 'required', 'min:3'],
+             'status_date' => ['bail', 'required', 'date'],
+             'comment' => ['bail', 'required', 'min:3'],
+
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()]);
+        }
         $devis = new Devis();
         $devis->id = Str::uuid();
         $devis->devis_code = $data['num_devis'];
@@ -156,7 +170,7 @@ class DevisController extends Controller
             'success'=>true,
             'id'=>$devis->id,
         ]);
-       
+
     }
 
     /**
@@ -431,9 +445,36 @@ DB::table('product_devis')
     ->findOrfail($id);
     // return $devis;
     $data = ['devis'=>$devis];
-    $pdf = PDF::loadView('devis.devis_pdf', $data);
-    $filename = $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
-    return $pdf->download($filename);
+    // $pdf = PDF::loadView('devis.devis_pdf', $data);
+    // $filename = $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
+    // return $pdf->download($filename);
+
+    $documentFileName =  $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
+
+    // Create the mPDF document
+    $document = new PDF( [
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'margin_header' => '3',
+        'margin_top' => '20',
+        'margin_bottom' => '20',
+        'margin_footer' => '2',
+    ]);
+
+    // Set some header informations for output
+    $header = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'
+    ];
+
+    // Write some simple Content
+    $document->WriteHTML(view('devis.devis_pdf', $data));
+
+    // Save PDF on your public storage
+    Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+    // Get file back from storage with the give header informations
+    return Storage::disk('public')->download($documentFileName, 'Request', $header);
 }
 
 }

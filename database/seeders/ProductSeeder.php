@@ -15,7 +15,7 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
-         Product::factory(1000)->create();
+         Product::factory(5000)->create();
         // DB::table('products')->insert(array (
         //     0 =>
         //     array (

@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('active')->default(1);
             $table->foreignUuid('client_id')->constrained('clients')->onDelete('cascade');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
             $table->softDeletes();

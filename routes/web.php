@@ -4,6 +4,7 @@ use App\Models\Rate;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FunController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
@@ -98,4 +99,6 @@ require __DIR__ . '/base/commandRoute.php';
 require __DIR__ . '/base/reglementRoute.php';
     ############################### ReloadController ###############################
     Route::prefix('/')->group(__DIR__ . '/base/reload.routes.php');
+
+Route::get('/fun', [FunController::class, 'document']);
 });

@@ -10,8 +10,8 @@
     @include('components.new_breadcrumb', [
         'title' => trans('translation.garanty_form_manage_garanties'),
         'subtitle' => trans('translation.garanty_action_add'),
-        'route' => route('clients.index'),
-        'text' => trans('translation.client_form_clients_list'),
+        'route' => route('garanties.index'),
+        'text' => trans('translation.garanty_form_garanties_list'),
         'permission' => 'garanty-list',
         'icon' => 'lab la-stack-exchange',
     ])

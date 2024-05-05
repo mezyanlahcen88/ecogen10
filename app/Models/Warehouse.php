@@ -50,6 +50,7 @@ class Warehouse extends Model
     public function getRowsTable(){
         return [
              'name' => 'name',
+             'type' => 'type',
          ];
      }
 
@@ -61,6 +62,8 @@ class Warehouse extends Model
      public function getRowsTableTrashed(){
          return [
             'name' => 'name',
+            'type' => 'type',
+
           ];
           }
 

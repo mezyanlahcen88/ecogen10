@@ -124,6 +124,8 @@
                                                 data-date-format="Y-m-d"
                                                 placeholder="{{ Carbon\Carbon::now()->format('d-m-Y H:i') }}" name="status_date">
                                         </div>
+    <span id="status_date-error" class="help-block error-help-block"></span>
+
                                     </div>
                                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                                         <div class="form-group">
@@ -131,6 +133,8 @@
                                                 <span class="text-secondary">*</span></label>
                                             <textarea class="form-control" name="comment" id="comment" rows="5">{{ old('comment') }}</textarea>
                                         </div>
+    <span id="comment-error" class="help-block error-help-block"></span>
+
                                     </div>
 
                                 </div>
