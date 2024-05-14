@@ -599,7 +599,8 @@ $(document).ready(function () {
                         "Devis a été créé avec succès",
                         "success"
                     );
-                    window.location.href = '/devis/'+data.id/"edit";
+                    window.location.href = '/devis/'+data.id;
+                    // window.location.href = '/devis';
 
                 }
             },

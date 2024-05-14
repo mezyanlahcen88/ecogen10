@@ -91,12 +91,11 @@ class CommandController extends Controller
     public function store(Request $request)
     {
                 $data = $request->all();
+                // dd( $data);
                 $validator = Validator::make($request->all(), [
-                     'client_id' => ['bail', 'required'],
+                     'client' => ['bail', 'required'],
                      'status' => ['bail', 'required', 'min:3'],
                      'status_date' => ['bail', 'required', 'date'],
-                     'comment' => ['bail', 'required', 'min:3'],
-
                 ]);
 
                 if ($validator->fails()) {

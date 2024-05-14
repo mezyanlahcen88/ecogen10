@@ -290,7 +290,10 @@ $(document).ready(function () {
                     const id = input.attr("id");
                     // Appelez la fonction increase en passant l'ID du produit
                     // updateQuantite(remiseInput.value, id);
-                    const idProd = id.slice(12);
+                    const idProd = id.slice(15);
+                    if (remiseInput.value < 1) {
+                        remiseInput.value = 0;
+                    }
 
                     updateLocalStorageQuantityPrixTva(idProd, remiseInput.value, 'remise');
                     updateLocalStorageHTTTTVA(idProd, $(`#product-qty-${product.id}`).val(), $(`#product-prix-${product.id}`).val(), $(`#product-tva-${product.id}`).val(), remiseInput.value);
