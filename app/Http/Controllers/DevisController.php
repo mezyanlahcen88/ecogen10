@@ -434,8 +434,11 @@ DB::table('product_devis')
 
     public function viewDevisInvoice($id)
     {
-        $devis = Devis::with('products')->findOrfail($id);
-        return view('devis.devis_pdf', compact('devis'));
+        $devis = Devis::with('products')
+            ->with('client')
+            ->findOrfail($id);
+        // return $devis;
+        return view('devis.show_devis_pdf', compact('devis'));
     }
 
     public function printDevisInvoice($id)
@@ -443,11 +446,8 @@ DB::table('product_devis')
     $devis = Devis::with('products')
     ->with('client')
     ->findOrfail($id);
-    // return $devis;
     $data = ['devis'=>$devis];
-    // $pdf = PDF::loadView('devis.devis_pdf', $data);
-    // $filename = $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
-    // return $pdf->download($filename);
+
 
     $documentFileName =  $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
 

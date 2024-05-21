@@ -1,14 +1,15 @@
+  /* *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+  /////////////////   Down Load Button Function   /////////////////
+  *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** */
+ 
 (function ($) {
-  ("use strict");
+  'use strict';
 
-  /*--------------------------------------------------------------
- ## Down Load Button Function
-   ----------------------------------------------------------------*/
-  $("#download_btn").on("click", function () {
-    var downloadSection = $("#download_section");
+  $('#tm_download_btn').on('click', function () {
+    var downloadSection = $('#tm_download_section');
     var cWidth = downloadSection.width();
     var cHeight = downloadSection.height();
-    var topLeftMargin = 40;
+    var topLeftMargin = 0;
     var pdfWidth = cWidth + topLeftMargin * 2;
     var pdfHeight = pdfWidth * 1.5 + topLeftMargin * 2;
     var canvasImageWidth = cWidth;
@@ -18,12 +19,12 @@
     html2canvas(downloadSection[0], { allowTaint: true }).then(function (
       canvas
     ) {
-      canvas.getContext("2d");
-      var imgData = canvas.toDataURL("image/jpeg", 1.0);
-      var pdf = new jsPDF("p", "pt", [pdfWidth, pdfHeight]);
+      canvas.getContext('2d');
+      var imgData = canvas.toDataURL('image/png', 1.0);
+      var pdf = new jsPDF('p', 'pt', [pdfWidth, pdfHeight]);
       pdf.addImage(
         imgData,
-        "JPG",
+        'PNG',
         topLeftMargin,
         topLeftMargin,
         canvasImageWidth,
@@ -33,26 +34,15 @@
         pdf.addPage(pdfWidth, pdfHeight);
         pdf.addImage(
           imgData,
-          "JPG",
+          'PNG',
           topLeftMargin,
           -(pdfHeight * i) + topLeftMargin * 0,
           canvasImageWidth,
           canvasImageHeight
         );
       }
-      pdf.save("ivonne-invoice.pdf");
+      pdf.save('download.pdf');
     });
   });
 
-  $("#copybtn1").on("click", function () {
-    let text = document.getElementById("myText1");
-    navigator.clipboard.writeText(text.innerHTML);
-  });
-
-  /* Copy text */
-
-  $("#copybtn2").on("click", function () {
-    let text2 = document.getElementById("myText2");
-    navigator.clipboard.writeText(text2.innerText);
-  });
-})(jQuery); // End of use
+})(jQuery);
