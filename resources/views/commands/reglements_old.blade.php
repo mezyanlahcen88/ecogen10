@@ -73,7 +73,6 @@
                             <textarea class="form-control" name="comment" id="commentReg" rows="5">{{ old('comment') }}</textarea>
                         </div>
                     </div>
-                    <input type="hidden" name="index" id="index">
                 </div>
                 <div class="row mt-3">
                     <table id="scroll-horizontal" class="table nowrap align-middle table-hover table-bordered"
@@ -101,8 +100,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-                <button type="button" id="storeReglement" class="btn btn-primary storeReglement">Save Changes</button>
-                <button type="button" id="updateReglement" class="btn btn-success updateReglement">Modifier</button>
+                <button type="button" class="btn btn-primary storeReglement">Save Changes</button>
             </div>
 
         </div><!-- /.modal-content -->

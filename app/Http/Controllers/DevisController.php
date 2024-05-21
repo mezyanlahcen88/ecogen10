@@ -456,7 +456,6 @@ DB::table('product_devis')
 
     $documentFileName =  $devis['devis_code'] . '_' . now()->format('YmdHis') . '.pdf';
 
-    // Create the mPDF document
     $document = new PDF( [
         'mode' => 'utf-8',
         'format' => 'A4',
@@ -466,7 +465,6 @@ DB::table('product_devis')
         'margin_footer' => '2',
     ]);
 
-    // Set some header informations for output
     $header = [
         'Content-Type' => 'application/pdf',
         'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'

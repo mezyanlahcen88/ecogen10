@@ -30,8 +30,8 @@
                             </div>
                             <div class="col-sm-auto">
                                 <div class="d-flex gap-1 flex-wrap">
-                                    <button type="button" class="btn btn-primary">Imprimer la commande TTC</button>
-                                    <button type="button" class="btn btn-success">Imprimer la commande</button>
+                                    <a href="{{route('commands.ViewCommandInvoice',$object->id)}}" class="btn btn-primary" target="_blank">Voir  command</a>
+                                    {{-- <a href="{{route('commands.printCommandInvoice',$object->id)}}" class="btn btn-success" target="_blank">Imprimer command</a> --}}
                                     <!-- Default Modals -->
                                     <button type="button" class="btn btn-primary " data-bs-toggle="modal"
                                         data-bs-target="#myModal">Mode de reglemnt</button>

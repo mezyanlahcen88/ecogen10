@@ -91,7 +91,6 @@ class CommandController extends Controller
     public function store(Request $request)
     {
                 $data = $request->all();
-                // dd( $data);
                 $validator = Validator::make($request->all(), [
                      'client' => ['bail', 'required'],
                      'status' => ['bail', 'required', 'min:3'],
@@ -227,7 +226,7 @@ class CommandController extends Controller
         $command->save();
         $updatedProductIds = [];
         foreach ($data['products'] as $item) {
-            $productDevisData = [
+            $productCommandData = [
                 'designation' => $item['designation'],
                 'quantity' => $item['quantity'],
                 'price' => $item['price'],
@@ -240,20 +239,20 @@ class CommandController extends Controller
                 'unite' => $item['unite'],
             ];
 
-            $existingProductDevis = DB::table('product_command')
+            $existingProductCommand = DB::table('product_command')
                 ->where('command_id', $command->id)
                 ->where('product_id', $item['product_id'])
                 ->first();
 
-            if ($existingProductDevis) {
-                // Le product_devis existe déjà, effectuez la mise à jour
+            if ($existingProductCommand) {
+                // Le product_command existe déjà, effectuez la mise à jour
                 DB::table('product_command')
                     ->where('command_id', $command->id)
                     ->where('product_id', $item['product_id'])
-                    ->update($productDevisData);
+                    ->update($productCommandData);
             } else {
                 // Le product_command n'existe pas, créez un nouveau
-                DB::table('product_command')->insert(array_merge(['id' => Str::uuid(), 'command_id' => $command->id, 'product_id' => $item['product_id']], $productDevisData));
+                DB::table('product_command')->insert(array_merge(['id' => Str::uuid(), 'command_id' => $command->id, 'product_id' => $item['product_id']], $productCommandData));
             }
 
             $updatedProductIds[] = $item['product_id'];
@@ -264,7 +263,7 @@ class CommandController extends Controller
             ->where('command_id', $command->id)
             ->whereNotIn('product_id', $updatedProductIds)
             ->delete();
-        // incDevisNumerotation();
+        // incCommandNumerotation();
         return response()->json(['success' => true]);
     }
 
@@ -339,7 +338,7 @@ class CommandController extends Controller
     public function generatePdf($id)
     {
         $object = Command::with('products')->findOrfail($id);
-        $data = ['devis'=>$object];
+        $data = ['command'=>$object];
         // $pdf = PDF::loadView('command.command_pdf', $object);
         // $filename = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
         // return $pdf->download($filename);
@@ -363,7 +362,7 @@ class CommandController extends Controller
                ];
 
                // Write some simple Content
-               $document->WriteHTML(view('devis.devis_pdf_old', $data));
+               $document->WriteHTML(view('command.command_pdf_old', $data));
                // $document->WriteHTML('<p>Write something, just for fun!</p>');
 
                // Save PDF on your public storage
@@ -372,4 +371,48 @@ class CommandController extends Controller
                // Get file back from storage with the give header informations
                return Storage::disk('public')->download($documentFileName, 'Request', $header); //
     }
+
+    public function viewCommandInvoice($id)
+    {
+        $command = Command::with('products')
+            ->with('client')
+            ->findOrfail($id);
+        // return $command;
+        return view('commands.show_command_pdf', compact('command'));
+    }
+
+    public function printCommandInvoice($id)
+{
+    $command = Command::with('products')
+    ->with('client')
+    ->findOrfail($id);
+    $data = ['command'=>$command];
+
+
+    $documentFileName =  $command['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
+
+    $document = new PDF( [
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'margin_header' => '3',
+        'margin_top' => '20',
+        'margin_bottom' => '20',
+        'margin_footer' => '2',
+    ]);
+
+    $header = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'
+    ];
+
+    // Write some simple Content
+    $document->WriteHTML(view('commands.command_pdf', $data));
+
+    // Save PDF on your public storage
+    Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+    // Get file back from storage with the give header informations
+    return Storage::disk('public')->download($documentFileName, 'Request', $header);
+}
+
 }

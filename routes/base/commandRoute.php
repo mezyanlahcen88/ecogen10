@@ -13,7 +13,9 @@ Route::delete('/commands/{id}/force_delete', [CommandController::class, 'forceDe
 Route::put('/commands/{id}/restore', [CommandController::class, 'restore'])->name('commands.restore');
 //liste all deleted
 Route::get('/commands/trashed', [CommandController::class, 'trashed'])->name('commands.trashed');
-Route::get('/devis/{id}/print_command', [CommandController::class, 'generatePdf'])->name('commands.generatePdf');
+Route::get('/command/{id}/print_command', [CommandController::class, 'generatePdf'])->name('commands.generatePdf');
+Route::get('/commands/{id}/view-command-invoice', [CommandController::class, 'ViewCommandInvoice'])->name('commands.ViewCommandInvoice');
+Route::get('/commands/{id}/print-command-invoice', [CommandController::class, 'printCommandInvoice'])->name('commands.printCommandInvoice');
 
 Route::resource('commands', CommandController::class);
 
