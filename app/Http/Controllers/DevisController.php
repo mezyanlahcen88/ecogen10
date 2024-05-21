@@ -121,19 +121,18 @@ class DevisController extends Controller
     public function store(Request $request)
     {
 
-        // dd($request->all());
         $data = $request->all();
         $validator = Validator::make($request->all(), [
              'client' => ['bail', 'required'],
              'status' => ['bail', 'required', 'min:3'],
              'status_date' => ['bail', 'required', 'date'],
-             'comment' => ['bail', 'required', 'min:3'],
-
         ]);
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()]);
         }
+        // try {
+        // DB::beginTransaction();
         $devis = new Devis();
         $devis->id = Str::uuid();
         $devis->devis_code = $data['num_devis'];
@@ -165,11 +164,17 @@ class DevisController extends Controller
         }
         incDevisNumerotation();
         trackinkAddedDoc($data['client'] ,'Devis');
-
         return response()->json([
             'success'=>true,
             'id'=>$devis->id,
         ]);
+    // } catch (\Exception $e) {
+    //     DB::rollBack();
+
+    //     return response()->json(['success' => false, 'error' => $e->getMessage()]);
+    // }
+
+
 
     }
 

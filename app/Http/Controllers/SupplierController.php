@@ -84,11 +84,8 @@ class SupplierController extends Controller
     {
         $validated = $request->validated();
 
-        // dd($request->all());
         $object = new Supplier();
         $object->id = Str::uuid();
-        // $object->code_supplier = getSupplierNumerotation();
-        $object->code_supplier = 'CLT-1';
         $object->ice = $request->ice;
         $object->name_ar = $request->name_ar;
         $object->name_fr = $request->name_fr;
@@ -104,7 +101,6 @@ class SupplierController extends Controller
         $object->address = $request->address;
         $object->obs = $request->obs;
         $object->created_by = Auth::id();
-        // $object->remise = $request->remise;
         $object->remise = 5;
         $object->parent_id = $request->parent_id;
         $object->parent_type = $request->parent_type;
@@ -166,7 +162,6 @@ class SupplierController extends Controller
         $object->address = $request->address;
         $object->obs = $request->obs;
         $object->created_by = Auth::id();
-        // $object->remise = $request->remise;
         $object->remise = 5;
         $object->parent_id = $request->parent_id;
         $object->parent_type = $request->parent_type;
