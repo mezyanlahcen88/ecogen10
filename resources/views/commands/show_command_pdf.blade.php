@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Laralink">
 
-  <title>General Purpose Invoice-7</title>
+  <title>{{$command->command_code}} | {{ Carbon\Carbon::parse($command->created_at )->format('d/m/Y') }}<</title>
   <link rel="stylesheet" href="{{URL::asset('invoice/assets/css/style.css')}}">
 </head>
 
@@ -124,7 +124,12 @@
             <div class="tm_invoice_footer tm_mb15 tm_m0_md">
               <div class="tm_left_footer">
                 <p class="tm_mb2"><b class="tm_primary_color">Méthode de paiement:</b></p>
-                <p class="tm_m0">{{$command->client->getDesignation()}} <br>Espese <br>Somme: {{$command->TTTC}} DH</p>
+                <p class="tm_m0">{{$command->client->getDesignation()}} <br>
+                    @foreach ($command->reglements as $reg)
+                    {{$reg->mode_reg}} | {{$reg->amount_reg}}<br>
+
+                    @endforeach
+                    Somme: {{$command->TTTC}} DH</p>
               </div>
               <div class="tm_right_footer">
                 <table class="tm_mb15 tm_m0_md">
@@ -135,7 +140,7 @@
                     </tr>
                     <tr>
                       <td class="tm_width_3 tm_danger_color tm_border_none tm_pt0">Remise 10%</td>
-                      <td class="tm_width_3 tm_danger_color tm_text_right tm_border_none tm_pt0">-$35</td>
+                      <td class="tm_width_3 tm_danger_color tm_text_right tm_border_none tm_pt0">-35 DH</td>
                     </tr>
                     <tr>
                       <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">TVA 0%</td>

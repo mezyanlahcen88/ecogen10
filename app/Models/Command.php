@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-
 use App\Models\Reglement;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,25 +26,18 @@ class Command extends Model
      */
     protected $keyType = 'string';
 
-
     public $fillable = [];
-
-
-
-
 
     public function getDesignation()
     {
         return $this->name_fr . ' | ' . $this->name_ar;
     }
 
-
     //  put the relation of this Model Here
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_command')
-            ->withPivot(['designation', 'quantity', 'price', 'remise', 'total_remise', 'TOTAL_HT', 'TVA', 'TOTAL_TVA', 'TOTAL_TTC', 'unite']);
+        return $this->belongsToMany(Product::class, 'product_command')->withPivot(['designation', 'quantity', 'price', 'remise', 'total_remise', 'TOTAL_HT', 'TVA', 'TOTAL_TVA', 'TOTAL_TTC', 'unite']);
     }
 
     /**
@@ -59,9 +51,9 @@ class Command extends Model
     }
 
     public function reglements()
-{
-    return $this->hasMany(Reglement::class, 'document_id');
-}
+    {
+        return $this->hasMany(Reglement::class, 'document_id', 'id');
+    }
 
     /**
      *getters pour recuperer les attribute de type file pour l'utiliser dans le crud
@@ -100,14 +92,12 @@ class Command extends Model
     }
 
     public function scopeValid($query)
-{
-    return $query->where('status', 'Validé');
-}
+    {
+        return $query->where('status', 'Validé');
+    }
 
-public function scopeWait($query)
-{
-    return $query->where('status', 'En attente');
-}
-
-
+    public function scopeWait($query)
+    {
+        return $query->where('status', 'En attente');
+    }
 }

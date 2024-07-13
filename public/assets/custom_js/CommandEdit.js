@@ -1072,30 +1072,40 @@ $("#btnValider").on("click", function (e) {
         var dateObj = new Date();
         // Formate la date selon le format YYYY-MM-DD HH:MM:SS
         reg.date_reg = dateObj.toISOString().slice(0, 19).replace('T', ' ');
-        if (montantPayer + montantTotalPayer <= total_ttc && montantPayer > 0) {
-            var total_restanter = total_ttc - (montantPayer + montantTotalPayer);
-            $("#total_restanter").text(total_restanter.toFixed(2));
-            if (total_restanter === 0) {
-                $('#montantPayer').val(0);
-                $('#montantPayer').prop('readonly', true);
-            }
-            data.push(reg);
-            // reglements.push(reg);
-            localStorage.setItem("product_commandEdit", JSON.stringify(commande));
-            // console.log(total_restanter);
-            tableReglements();
-            $('#montantPayer').val(0);
-            $('#commentReg').val("");
-            $('#check_ref').val("");
-            $('select[name="reglement"]').val("").trigger('change.select2'); // Déselectionner l'option
+        if (modePaiment !== "" && comment !=="") {
+
+             if (montantPayer + montantTotalPayer <= total_ttc && montantPayer > 0) {
+                 var total_restanter = total_ttc - (montantPayer + montantTotalPayer);
+                 $("#total_restanter").text(total_restanter.toFixed(2));
+                 if (total_restanter === 0) {
+                     $('#montantPayer').val(0);
+                     $('#montantPayer').prop('readonly', true);
+                 }
+                 data.push(reg);
+                 // reglements.push(reg);
+                 localStorage.setItem("product_commandEdit", JSON.stringify(commande));
+                 // console.log(total_restanter);
+                 tableReglements();
+                 $('#montantPayer').val(0);
+                 $('#commentReg').val("");
+                 $('#check_ref').val("");
+                 $('select[name="reglement"]').val("").trigger('change.select2'); // Déselectionner l'option
+             } else {
+                 console.log("le montant entrer est plus grand que le reste à payer !");
+                 Swal.fire(
+                     "Super!",
+                     "Le montant saisi n'est as valide ou plus grand que le reste à payer",
+                     "error"
+                 );
+             }
+
         } else {
-            console.log("le montant entrer est plus grand que le reste à payer !");
             Swal.fire(
                 "Super!",
-                "Le montant saisi n'est as valide ou plus grand que le reste à payer",
+                "Veuillez choisir le mode de paiement et saisir un commentaire",
                 "error"
             );
-        }
+       }
         console.log("Action du bouton Valider");
     } else if ($(this).attr("id") === "btnModifier") {
         // Réafficher tous les boutons "delete" cachés
@@ -1175,6 +1185,8 @@ $(".storeReglement").on("click", function (e) {
     var listeReg = data.detailsReglement;
     var postData = {
         reglements: listeReg,
+        reg_code: $('#reg_code').text(),
+        command_id: commandId
     };
     console.log(postData);
     localStorage.setItem("postData", JSON.stringify(postData));
@@ -1257,7 +1269,23 @@ $(".updateReglement").on("click", function (e) {
     });
 });
 
+// Attendre que le document soit complètement chargé
+document.addEventListener('DOMContentLoaded', function () {
+    var data = JSON.parse(localStorage.getItem("product_commandEdit")) || [];
+    console.log(data.detailsReglement);
+    // Parcourir les détails du règlement
+    for (var i = 0; i < data.detailsReglement.length; i++) {
+        // Vérifier si l'id est null
+        if (data.detailsReglement[i].id === null || data.detailsReglement[i].id === "") {
+            // Supprimer cet élément
+            data.detailsReglement.splice(i, 1);
+            // Décrémenter i pour compenser la suppression de l'élément
+            i--;
+        }
+    }
+    localStorage.setItem('product_commandEdit', JSON.stringify(data));
 
+});
 
 function getCommandDetails(commandId) {
     console.log(commandId);

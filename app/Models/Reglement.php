@@ -59,7 +59,7 @@ public function client()
 
     public function getRowsTable(){
         return [
-             'ref_reg' => 'ref_reg',
+             'reg_code' => 'ref_reg',
              'amount_reg' => 'amount_reg',
              'mode_reg' => 'mode_reg',
              'nature_reg' => 'nature_reg',

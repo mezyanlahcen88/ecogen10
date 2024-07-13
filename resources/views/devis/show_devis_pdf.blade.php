@@ -11,7 +11,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="Laralink">
 
-  <title>General Purpose Invoice-7</title>
+  <title>{{$devis->devis_code}} | {{ Carbon\Carbon::parse($devis->created_at )->format('d/m/Y') }}</title>
   <link rel="stylesheet" href="{{URL::asset('invoice/assets/css/style.css')}}">
 </head>
 
@@ -22,7 +22,7 @@
         <div class="tm_invoice_in">
           <div class="tm_invoice_head tm_mb20 tm_m0_md">
             <div class="tm_invoice_left">
-              <div class="tm_logo"><img src="assets/img/logo_accent.svg" alt="Logo"></div>
+              <div class="tm_logo"><img src="{{URL::asset('invoice/assets/img/logo.png')}}" alt="Logo"></div>
             </div>
             <div class="tm_invoice_right">
               <div class="tm_grid_row tm_col_3">
@@ -122,10 +122,10 @@
               </div>
             </div>
             <div class="tm_invoice_footer tm_mb15 tm_m0_md">
-              <div class="tm_left_footer">
-                <p class="tm_mb2"><b class="tm_primary_color">Payment info:</b></p>
-                <p class="tm_m0">Jhon Doe <br>Credit Card - 236***********928 <br>Amount: $315</p>
-              </div>
+                <div class="tm_left_footer">
+                    <p class="tm_mb2"><b class="tm_primary_color">Méthode de paiement:</b></p>
+                    <p class="tm_m0">{{$devis->client->getDesignation()}} <br>Espese <br>Somme: {{$devis->TTTC}} DH</p>
+                  </div>
               <div class="tm_right_footer">
                 <table class="tm_mb15 tm_m0_md">
                   <tbody>
@@ -135,10 +135,10 @@
                     </tr>
                     <tr>
                       <td class="tm_width_3 tm_danger_color tm_border_none tm_pt0">Remise 10%</td>
-                      <td class="tm_width_3 tm_danger_color tm_text_right tm_border_none tm_pt0">-$35</td>
+                      <td class="tm_width_3 tm_danger_color tm_text_right tm_border_none tm_pt0">-35 DH</td>
                     </tr>
                     <tr>
-                      <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">TVA 0%</td>
+                      <td class="tm_width_3 tm_primary_color tm_border_none tm_pt0">TTVA</td>
                       <td class="tm_width_3 tm_primary_color tm_text_right tm_border_none tm_pt0">{{$devis->TVA}} DH</td>
                     </tr>
                     <tr class="tm_accent_border_20 tm_border">
@@ -147,31 +147,31 @@
                     </tr>
                   </tbody>
                 </table>
-              </div>
             </div>
-            <div class="tm_invoice_footer tm_type1">
-              <div class="tm_left_footer"></div>
-              <div class="tm_right_footer">
-                <div class="tm_sign tm_text_center">
-                  <img src="assets/img/sign.svg" alt="Sign">
-                  <p class="tm_m0 tm_ternary_color">Jhon Donate</p>
-                  <p class="tm_m0 tm_f16 tm_primary_color">Accounts Manager</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tm_bottom_invoice tm_accent_border_20">
-            <div class="tm_bottom_invoice_left">
-              <p class="tm_m0 tm_f18 tm_accent_color tm_mb5">Thank you for your business.</p>
-              <p class="tm_primary_color tm_f12 tm_m0 tm_bold">Terms & Condition</p>
-              <p class="tm_m0 tm_f12">IInvoice was created on a computer and is valid without the signature and seal.</p>
-            </div>
-            <div class="tm_bottom_invoice_right tm_mobile_hide">
-              <div class="tm_logo"><img src="assets/img/logo_accent.svg" alt="Logo"></div>
+        </div>
+        <div class="tm_invoice_footer tm_type1">
+          <div class="tm_left_footer"></div>
+          <div class="tm_right_footer">
+            <div class="tm_sign tm_text_center">
+              <img src="{{URL::asset('invoice/assets/img/sign.png')}}" alt="Sign">
+              <p class="tm_m0 tm_ternary_color">Brahim</p>
+              <p class="tm_m0 tm_f16 tm_primary_color">Directeur</p>
             </div>
           </div>
         </div>
       </div>
+      <div class="tm_bottom_invoice tm_accent_border_20">
+        <div class="tm_bottom_invoice_left">
+            <p class="tm_m0 tm_f18 tm_accent_color tm_mb5">Merci de votre confiance.</p>
+            <p class="tm_primary_color tm_f12 tm_m0 tm_bold">Conditions générales de vente</p>
+            <p class="tm_m0 tm_f12">Facture créée sur ordinateur et valable sans signature et cachet.</p>
+            </div>
+        <div class="tm_bottom_invoice_right tm_mobile_hide">
+          <div class="tm_logo"><img src="{{URL::asset('invoice/assets/img/logo.png')}}" alt="Logo"></div>
+        </div>
+      </div>
+    </div>
+  </div>
       <div class="tm_invoice_btns tm_hide_print">
         <a href="javascript:window.print()" class="tm_invoice_btn tm_color1">
           <span class="tm_btn_icon">

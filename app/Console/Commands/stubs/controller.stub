@@ -173,9 +173,9 @@ class {{class}} extends Controller
     {
         $id = $request->id;
         $object = {{model}}::findOrFail($id);
-        $object->active = !$object->active;
+        $object->isactive = !$object->isactive;
         $object->save();
-        $message = $object->active ? trans('translation.{{lower}}_message_activated') : trans('translation.{{lower}}_message_inactivated');
-        return response()->json(['code' => 200, 'active' => $object->active, 'message' => $message]);
+        $message = $object->isactive ? trans('translation.{{lower}}_message_activated') : trans('translation.{{lower}}_message_inactivated');
+        return response()->json(['code' => 200, 'active' => $object->isactive, 'message' => $message]);
     }
 }
