@@ -1,10 +1,11 @@
 @extends('layouts.main_layout')
 @section('title')
-    {{ env('APP_NAME') }} | {{ trans('translation.commands_form_manage_commands') }} | {{ trans('translation.commands_action_add') }}
+    {{ env('APP_NAME') }} | {{ trans('translation.commands_form_manage_commands') }} |
+    {{ trans('translation.commands_action_add') }}
 @stop
 @section('css')
     @include('layouts.includes.form_css')
- <link href="{{ asset('assets/css/calculatrice.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/calculatrice.css') }}" rel="stylesheet" type="text/css" />
 
 @endsection
 @section('page-header')
@@ -33,7 +34,8 @@
                                     <button type="button" class="btn btn-primary">Imprimer la commande TTC</button>
                                     <button type="button" class="btn btn-success">Imprimer la commande</button>
                                     <button type="button" class="btn btn-warning"> Transfer bon livraison</button>
-<button type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#myModal">Mode de reglemnt</button>
+                                    <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                                        data-bs-target="#myModal">Mode de reglemnt</button>
 
                                     <button type="button" class="btn btn-info">
                                         {{ trans('translation.general_general_save') }}</button>
@@ -120,11 +122,12 @@
                                     <div class="col-md-6">
                                         <div>
                                             <label class="form-label my-1">Date de crétation</label>
-                                            <input type="text" class="form-control" data-provider="flatpickr" data-enable-time
-                                                data-date-format="Y-m-d"
-                                                placeholder="{{ Carbon\Carbon::now()->format('d-m-Y H:i') }}" name="status_date">
+                                            <input type="text" class="form-control" data-provider="flatpickr"
+                                                data-enable-time data-date-format="Y-m-d"
+                                                placeholder="{{ Carbon\Carbon::now()->format('d-m-Y H:i') }}"
+                                                name="status_date">
                                         </div>
-    <span id="status_date-error" class="help-block error-help-block"></span>
+                                        <span id="status_date-error" class="help-block error-help-block"></span>
 
                                     </div>
                                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
@@ -133,7 +136,7 @@
                                                 <span class="text-secondary">*</span></label>
                                             <textarea class="form-control" name="comment" id="comment" rows="5">{{ old('comment') }}</textarea>
                                         </div>
-    <span id="comment-error" class="help-block error-help-block"></span>
+                                        <span id="comment-error" class="help-block error-help-block"></span>
 
                                     </div>
 
@@ -143,23 +146,23 @@
                                 <div
                                     class="bg-info text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
                                     <label for="" id="commands">Commande N° :</label>
-                                    <label for="" id="num_command"
-                                        >{{ getCommandNumerotation() . '/' . getExercice() }}</label>
+                                    <label for=""
+                                        id="num_command">{{ getCommandNumerotation() . '/' . getExercice() }}</label>
                                 </div>
                                 <div
                                     class="bg-primary text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
                                     <label for="">Total TTC :</label>
-                                    <label for="" id="total_ttc" >0.00</label>
+                                    <label for="" id="total_ttc">0.00</label>
                                 </div>
                                 <div
                                     class="bg-success text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
                                     <label for="">Total HT :</label>
-                                    <label for="" id="total_ht" >0.00</label>
+                                    <label for="" id="total_ht">0.00</label>
                                 </div>
                                 <div
                                     class="bg-warning text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
                                     <label for="">Total TVA :</label>
-                                    <label for="" id="total_ttva" >0.00</label>
+                                    <label for="" id="total_ttva">0.00</label>
                                 </div>
 
                             </div>
@@ -179,7 +182,8 @@
             </div>
             <div class="col-lg-12">
                 <div class="text-start">
-                    <button type="submit" class="btn btn-primary storeCommand">{{ trans('translation.general_general_save') }}</button>
+                    <button type="submit"
+                        class="btn btn-primary storeCommand">{{ trans('translation.general_general_save') }}</button>
                 </div>
             </div>
         </div>

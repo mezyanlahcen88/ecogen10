@@ -29,7 +29,7 @@
                             <div class="d-flex gap-1 flex-wrap">
                                 <a href="{{route('commands.ViewCommandInvoice',$object->id)}}" class="btn btn-primary" target="_blank">Voir  command</a>
 
-                                <a href="#" class="btn btn-warning"> Transfer bon livraison</a>
+                                <a href="{{route('deliveries.create',$object->id)}}" class="btn btn-warning"> Transfer bon livraison</a>
                                 <a href="#" id="command_edit" class="getCommand" data-command-id="{{ $object->id }}" title="Edit"><span
                                     class="btn btn-info">{{ trans('translation.commands_action_edit') }}</span></a>
                             </div>

@@ -125,6 +125,8 @@ class CommandController extends Controller
                     'product_id' => $item['id'],
                     'designation' => $item['designation'],
                     'quantity' => $item['quantite'],
+                    'qty_livred' => 0,
+                    'qty_reste' => $item['quantite'],
                     'price' => $item['prix'],
                     'remise' => $item['remise'],
                     'total_remise' => $item['tremise'],
@@ -229,6 +231,8 @@ class CommandController extends Controller
             $productCommandData = [
                 'designation' => $item['designation'],
                 'quantity' => $item['quantity'],
+                'qty_livred' => 0,
+                'qty_reste' => $item['quantite'],
                 'price' => $item['price'],
                 'remise' => $item['remise'],
                 'total_remise' => $item['total_remise'],

@@ -39,6 +39,8 @@
         },
         "files": [
             "app/Helpers/ImageHelper.php",
+            "app/Helpers/DynamicHelper.php",
+            "app/Helpers/StaticHelper.php",
             "app/Helpers/GeneralHelper.php"
         ]
     },

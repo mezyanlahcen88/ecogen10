@@ -31,6 +31,7 @@
                             <div class="col-sm-auto">
                                 <div class="d-flex gap-1 flex-wrap">
                                     <a href="{{route('commands.ViewCommandInvoice',$object->id)}}" class="btn btn-primary" target="_blank">Voir  command</a>
+                                    <a href="{{route('deliveries.create',$object->id)}}" class="btn btn-warning"> Transfer bon livraison</a>
                                     {{-- <a href="{{route('commands.printCommandInvoice',$object->id)}}" class="btn btn-success" target="_blank">Imprimer command</a> --}}
                                     <!-- Default Modals -->
                                     <button type="button" class="btn btn-primary " data-bs-toggle="modal"

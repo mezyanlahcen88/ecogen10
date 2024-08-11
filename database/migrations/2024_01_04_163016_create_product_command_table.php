@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignUuid('product_id')->constrained('products')->onDelete('cascade');
             $table->string('designation');
             $table->integer('quantity');
+            $table->integer('qty_livred');
+            $table->integer('qty_reste');
             $table->double('price',8,2);
             $table->integer('remise');
             $table->integer('total_remise');

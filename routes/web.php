@@ -97,6 +97,9 @@ Route::group(['middleware' => 'auth'], function () {
 require __DIR__ . '/base/commandRoute.php';
 ############################### Reglement ###############################
 require __DIR__ . '/base/reglementRoute.php';
+############################### Delivery ###############################
+require __DIR__ . '/base/deliveryRoute.php';
+
     ############################### ReloadController ###############################
     Route::prefix('/')->group(__DIR__ . '/base/reload.routes.php');
 

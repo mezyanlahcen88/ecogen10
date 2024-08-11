@@ -61,8 +61,6 @@ public function documents()
              'marque' => 'marque',
              'type' => 'type',
              'dae' => 'dae',
-
-
          ];
      }
 

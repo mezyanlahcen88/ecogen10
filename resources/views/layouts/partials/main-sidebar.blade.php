@@ -221,7 +221,7 @@
                                 @endcan
                                 @can('role-list')
                                     <li class="nav-item">
-                                        <a href="{{ route('roles.index') }}" class="nav-link" data-key="roles"> <span
+                                        <a href="{{ route('deliveries.index') }}" class="nav-link" data-key="deliveries"> <span
                                                 class="text-uppercase">{{ trans('translation.navigation_navigation_bon_livraison') }}
                                             </span>
                                             {{-- <span class="badge badge-pill bg-danger" data-key="users">1</span> --}}
