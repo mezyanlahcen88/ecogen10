@@ -178,6 +178,7 @@
         </div>
     </form>
     @include('commands.reglements')
+    @include('commands.deliveries')
 @endsection
 @section('js')
     @include('layouts.includes.form_js')
