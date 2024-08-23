@@ -38,7 +38,6 @@ return new class extends Migration
             $table->string('picture')->nullable();
             $table->foreignUuid('warehouse_id')->constrained()->onDelete('cascade');
             $table->boolean('active')->default(1);
-            // $table->timestamps();
             $table->timestamp('created_at');
             $table->timestamp('updated_at');
             $table->softDeletes();

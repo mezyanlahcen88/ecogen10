@@ -132,6 +132,8 @@
                 </div>
             </div>
         </div>
+    @include('commands.deliveries')
+
     </div>
 @endsection
 @section('js')
