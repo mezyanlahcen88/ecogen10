@@ -34,10 +34,10 @@
                                     <a href="{{route('deliveries.create',$object->id)}}" class="btn btn-warning"> Transfer bon livraison</a>
                                     <a href="{{route('commands.manageReglement',$object->id)}}" class="btn btn-success" target="_blank">Mode de reglemnt</a>
                                     <!-- Default Modals -->
-                                    <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                                    {{-- <button type="button" class="btn btn-primary " data-bs-toggle="modal"
                                         data-bs-target="#myModal">Mode de reglemnt</button>
                                         <button type="submit"
-                                        class="btn btn-primary storeCommand">{{ trans('translation.commands_action_edit') }}</button>
+                                        class="btn btn-primary storeCommand">{{ trans('translation.commands_action_edit') }}</button> --}}
                                 </div>
                             </div>
                         </div>

@@ -16,6 +16,7 @@ Route::get('/commands/trashed', [CommandController::class, 'trashed'])->name('co
 Route::get('/command/{id}/print_command', [CommandController::class, 'generatePdf'])->name('commands.generatePdf');
 Route::get('/commands/{id}/view-command-invoice', [CommandController::class, 'ViewCommandInvoice'])->name('commands.ViewCommandInvoice');
 Route::get('/commands/{id}/print-command-invoice', [CommandController::class, 'printCommandInvoice'])->name('commands.printCommandInvoice');
+Route::get('/commands/{id}/manage-reglement', [CommandController::class, 'manageReglement'])->name('commands.manageReglement');
 
 Route::resource('commands', CommandController::class);
 

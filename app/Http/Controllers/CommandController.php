@@ -419,4 +419,9 @@ class CommandController extends Controller
     return Storage::disk('public')->download($documentFileName, 'Request', $header);
 }
 
+public function manageReglement($commandId) {
+  $object = Command::with('reglements')->findOrFail($commandId);
+  return view('commands.edit_reglement', compact('object'));
+//   return $command;
+}
 }
