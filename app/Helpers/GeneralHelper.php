@@ -542,3 +542,57 @@ if (!function_exists('warehouseType')) {
     }
 }
 }
+
+if (!function_exists('getPurchaseNumerotation')) {
+    function getPurchaseNumerotation()
+    {
+        $num = Numerotation::where('doc_type', 'Prix')
+            ->latest()
+            ->first();
+
+        if (!$num) {
+            throw new Exception('No Numerotation record found for doc_type "Client"');
+        }
+        $codePurchase = $num->prefix . $num->increment_num + 1;
+
+        return $codePurchase;
+    }
+}
+
+if (!function_exists('incPurchaseNumerotation')) {
+    function incPurchaseNumerotation()
+    {
+        $num = Numerotation::where('doc_type', 'Prix')
+            ->latest()
+            ->first();
+        $num->increment_num = $num->increment_num + 1;
+        $num->save();
+    }
+}
+
+if (!function_exists('getReceptionNumerotation')) {
+    function getReceptionNumerotation()
+    {
+        $num = Numerotation::where('doc_type', 'Reception')
+            ->latest()
+            ->first();
+
+        if (!$num) {
+            throw new Exception('No Numerotation record found for doc_type "Client"');
+        }
+        $codeReception = $num->prefix . $num->increment_num + 1;
+
+        return $codeReception;
+    }
+}
+
+if (!function_exists('incReceptionNumerotation')) {
+    function incReceptionNumerotation()
+    {
+        $num = Numerotation::where('doc_type', 'Reception')
+            ->latest()
+            ->first();
+        $num->increment_num = $num->increment_num + 1;
+        $num->save();
+    }
+}
