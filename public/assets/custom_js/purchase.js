@@ -142,6 +142,8 @@ $(document).ready(function () {
                     if (qteInput.value < 1) {
                         qteInput.value = 1;
                     }
+                    updateLocalStorageQuantityPrixTva(idProd, qteInput.value, 'quantite');
+                    updateLocalStorageHTTTTVA(idProd, qteInput.value);
 
                     tableProducts();
                 });
@@ -158,6 +160,8 @@ $(document).ready(function () {
 
                 // Append the div to the td element
                 td.append(quantityDiv);
+            }else {
+                td.text(product[key]);
             }
 
             tr.append(td);
@@ -183,6 +187,8 @@ $(document).ready(function () {
             if (!isNaN(qte)) {
                 qte += 1;
                 qteInput.val(qte);
+                updateLocalStorageQuantityPrixTva(id, qte, 'quantite');
+                updateLocalStorageHTTTTVA(id, qte);
 
 
                 tableProducts();
@@ -212,6 +218,9 @@ $(document).ready(function () {
                 // Update the quantity in the input field
                 qteInput.value = qte;
 
+                updateLocalStorageQuantityPrixTva(id, qte, 'quantite');
+                // Calculate and update ht and tttva in the localStorage
+                updateLocalStorageHTTTTVA(id, qte);
 
                 tableProducts();
 
@@ -222,6 +231,31 @@ $(document).ready(function () {
         }
     }
 
+
+
+//////////////////////////////////////////////////////
+    function updateLocalStorageQuantityPrixTva(id, newValue, type) {
+        if (type === 'quantite') {
+            var listeProd = JSON.parse(localStorage.getItem('product_purchase')) || [];
+            var existingProduct = listeProd.find((product) => product.id === id);
+
+            if (existingProduct) {
+                existingProduct.quantite = newValue;
+                localStorage.setItem('product_purchase', JSON.stringify(listeProd));
+            }
+        }
+    }
+
+
+    function updateLocalStorageHTTTTVA(id, newQuantity) {
+        var listeProd = JSON.parse(localStorage.getItem('product_purchase')) || [];
+        var existingProduct = listeProd.find((product) => product.id === id);
+        if (existingProduct) {
+            localStorage.setItem('product_purchase', JSON.stringify(listeProd));
+        }
+    }
+
+//////////////////////////////////////////////////////
 
 
     function deleteProduct(productId) {
@@ -256,7 +290,7 @@ $(document).ready(function () {
         tableProducts();
     }
 
-    $(".storeDevis").on("click", function (e) {
+    $(".storePurchase").on("click", function (e) {
         e.preventDefault();
 
         let formData = new FormData($("#formAddDevis")[0]);
@@ -276,7 +310,7 @@ $(document).ready(function () {
             },
         });
         $.ajax({
-            url: "/devis",
+            url: "/purchases",
             type: "POST",
             data: data,
             dataType: "json",
@@ -295,11 +329,10 @@ $(document).ready(function () {
 
                     Swal.fire(
                         "Super!",
-                        "Devis a été créé avec succès",
+                        "Purchases a été créé avec succès",
                         "success"
                     );
-                    window.location.href = '/devis/'+data.id;
-                    // window.location.href = '/devis';
+                    window.location.href = '/purchases/'+data.id;
 
                 }
             },

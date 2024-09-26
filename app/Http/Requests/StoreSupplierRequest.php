@@ -46,7 +46,7 @@ class StoreSupplierRequest extends FormRequest
            "secteur_id" => ['bail', 'nullable'],
            "cd_postale" => ['bail', 'nullable','numeric', 'min:3'],
            "type_supplier" => ['bail', 'required', 'min:3'],
-           "fonction" => ['bail', 'nullable', 'min:3'],
+           "fonction" => ['bail', 'nullable', 'string'],
            "parent_type" => ['bail', 'nullable', 'min:3'],
            "parent_id" => ['bail', 'nullable', 'min:3'],
            "address" => ['bail', 'required', 'min:3'],

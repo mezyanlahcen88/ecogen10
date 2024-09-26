@@ -40,7 +40,7 @@ class Purchase extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class,'product_purchase')
-            ->withPivot(['designation','quantity', 'price','unite']);
+            ->withPivot(['designation','quantity','unite']);
     }
 
     /**
@@ -62,9 +62,9 @@ class Purchase extends Model
         public function getRowsTable(){
             return [
                  'ref' => 'ref',
-                 'HT' => 'ht',
-                 'TVA' => 'tva',
-                 'TTTC' => 'tttc',
+                //  'HT' => 'ht',
+                //  'TVA' => 'tva',
+                //  'TTTC' => 'tttc',
                  'status' => 'status',
                  'status_date' => 'status_date',
 
@@ -79,9 +79,9 @@ class Purchase extends Model
          public function getRowsTableTrashed(){
              return [
                 'ref' => 'ref',
-                'HT' => 'ht',
-                'TVA' => 'tva',
-                'TTTC' => 'tttc',
+                // 'HT' => 'ht',
+                // 'TVA' => 'tva',
+                // 'TTTC' => 'tttc',
                 'status' => 'status',
                 'status_date' => 'status_date',
               ];

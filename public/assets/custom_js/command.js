@@ -348,7 +348,6 @@ $(document).ready(function () {
 
                 // Update the localStorage with the new quantity
                 updateLocalStorageQuantityPrixTva(id, qte, 'quantite');
-
                 // Calculate and update ht and tttva in the localStorage
                 updateLocalStorageHTTTTVA(id, qte, prix, tva, remise);
                 tableProducts();

@@ -125,21 +125,12 @@
                                     <label for=""
                                         id="num_purchase">{{ getPurchaseNumerotation() . '/' . getExercice() }}</label>
                                 </div>
-                                <div
+                                {{-- <div
                                     class="bg-primary text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
                                     <label for="">Total TTC :</label>
                                     <label for="" id="total_ttc">0.00</label>
-                                </div>
-                                {{-- <div
-                                        class="bg-success text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
-                                        <label for="">Total HT :</label>
-                                        <label for="" id="total_ht" >0.00</label>
-                                    </div>
-                                    <div
-                                        class="bg-warning text-light h-25 w-100 d-flex  justify-content-between align-items-center px-4 mb-1">
-                                        <label for="">Total TVA :</label>
-                                        <label for="" id="total_ttva" >0.00</label>
-                                    </div> --}}
+                                </div> --}}
+
                             </div>
                         </div>
                     </div>
@@ -148,7 +139,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header bg-primary">
-                        <h6 class="card-title mb-0 text-white">Détails de purchase</h6>
+                        <h6 class="card-title mb-0 text-white">Détails demande de prix</h6>
                     </div>
                     <div class="card-body">
                         @include('purchases.create_table')
@@ -158,7 +149,7 @@
             <div class="col-lg-12">
                 <div class="text-start">
                     <button type="submit"
-                        class="btn btn-primary storeDevis">{{ trans('translation.general_general_save') }}</button>
+                        class="btn btn-primary storePurchase">{{ trans('translation.general_general_save') }}</button>
                 </div>
             </div>
         </div>

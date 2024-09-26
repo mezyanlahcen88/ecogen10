@@ -16,9 +16,9 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->uuid('id')->unique();
             $table->string('ref')->unique();
-            $table->double('HT',8,2);
-            $table->integer('TVA');
-            $table->double('TTTC',8,2);
+            $table->double('HT',8,2)->nullable();
+            $table->integer('TVA')->nullable();
+            $table->double('TTTC',8,2)->nullable();
             $table->string('status');
             $table->timestamp('status_date');
             $table->boolean('active')->default(1);

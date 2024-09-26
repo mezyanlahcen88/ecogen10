@@ -2,15 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use \Mpdf\Mpdf as PDF;
 use App\Dto\PurchaseDto;
 use App\Models\Purchase;
+use App\Models\Supplier;
 use App\Forms\PurchaseForm;
+use Illuminate\Support\Str;
 use App\Enums\StaticOptions;
 use Illuminate\Http\Request;
 use App\Services\CrudService;
-use App\Http\Requests\StorePurchaseRequest;
-use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
+use App\Http\Requests\StorePurchaseRequest;
+
 
 
 class PurchaseController extends Controller
@@ -77,13 +84,63 @@ class PurchaseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePurchaseRequest $request)
-    {
-        $validated = $request->validated();
-        $this->crudService->storeRecord(new Purchase(),$request->except('_token','proengsoft_jsvalidation'));
+    // public function store(StorePurchaseRequest $request)
+    // {
+    //     $validated = $request->validated();
+    //     $this->crudService->storeRecord(new Purchase(),$request->except('_token','proengsoft_jsvalidation'));
 
-        return redirect()->route('purchases.index');
+    //     return redirect()->route('purchases.index');
+    //     }
+    public function store(Request $request)
+    {
+                $data = $request->all();
+                $validator = Validator::make($request->all(), [
+                     'supplier' => ['bail', 'required'],
+                     'status' => ['bail', 'required', 'min:3'],
+                     'status_date' => ['bail', 'required', 'date'],
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json(['errors' => $validator->errors()]);
+                }
+        try {
+            DB::beginTransaction();
+            $data = $request->all();
+            $purchase = new Purchase();
+            $purchase->id = Str::uuid();
+            $purchase->ref = $data['num_purchase'];
+            $purchase->HT = null;
+            $purchase->TVA = null;
+            $purchase->TTTC = null;
+            $purchase->status = $data['status'];
+            $purchase->status_date = $data['status_date'];
+            $purchase->supplier_id = $data['supplier'];
+            $purchase->created_by = Auth::id();
+            $purchase->comment = $data['comment'];
+            $purchase->save();
+
+            foreach ($data['products'] as $item) {
+                DB::table('product_purchase')->insert([
+                    'id' => Str::uuid(),
+                    'purchase_id' => $purchase->id,
+                    'product_id' => $item['id'],
+                    'designation' => $item['designation'],
+                    'quantity' => $item['quantite'],
+                    'unite' => $item['unite'],
+                ]);
+            }
+            incPurchaseNumerotation();
+            DB::commit();
+            return response()->json([
+                'success' => true,
+                'id' => $purchase->id,
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'error' => $e->getMessage()]);
         }
+    }
+
 
     /**
      * Display the specified resource.
@@ -93,7 +150,8 @@ class PurchaseController extends Controller
      */
     public function show($id)
     {
-        //
+        $object = Purchase::with('products')->findOrfail($id);
+        return view('purchases.show', compact('object'));
     }
 
     /**
@@ -180,4 +238,85 @@ class PurchaseController extends Controller
         $message = $object->isactive ? trans('translation.purchase_message_activated') : trans('translation.purchase_message_inactivated');
         return response()->json(['code' => 200, 'active' => $object->isactive, 'message' => $message]);
     }
+
+
+    public function generatePdf($id)
+    {
+        $object = Purchase::with('products')->findOrfail($id);
+        $data = ['command'=>$object];
+        // $pdf = PDF::loadView('command.command_pdf', $object);
+        // $filename = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
+        // return $pdf->download($filename);
+               // Setup a filename
+               $documentFileName = $object['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
+
+               // Create the mPDF document
+               $document = new PDF( [
+                   'mode' => 'utf-8',
+                   'format' => 'A4',
+                   'margin_header' => '3',
+                   'margin_top' => '20',
+                   'margin_bottom' => '20',
+                   'margin_footer' => '2',
+               ]);
+
+               // Set some header informations for output
+               $header = [
+                   'Content-Type' => 'application/pdf',
+                   'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'
+               ];
+
+               // Write some simple Content
+               $document->WriteHTML(view('command.command_pdf_old', $data));
+               // $document->WriteHTML('<p>Write something, just for fun!</p>');
+
+               // Save PDF on your public storage
+               Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+               // Get file back from storage with the give header informations
+               return Storage::disk('public')->download($documentFileName, 'Request', $header); //
+    }
+
+    public function viewPurchaseInvoice($id)
+    {
+        $command = Purchase::with('products')
+            ->with('client')
+            ->findOrfail($id);
+        // return $command;
+        return view('commands.show_command_pdf', compact('command'));
+    }
+
+    public function printPurchaseInvoice($id)
+{
+    $command = Purchase::with('products')
+    ->with('client')
+    ->findOrfail($id);
+    $data = ['command'=>$command];
+
+
+    $documentFileName =  $command['command_code'] . '_' . now()->format('YmdHis') . '.pdf';
+
+    $document = new PDF( [
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'margin_header' => '3',
+        'margin_top' => '20',
+        'margin_bottom' => '20',
+        'margin_footer' => '2',
+    ]);
+
+    $header = [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="'.$documentFileName.'"'
+    ];
+
+    // Write some simple Content
+    $document->WriteHTML(view('commands.command_pdf', $data));
+
+    // Save PDF on your public storage
+    Storage::disk('public')->put($documentFileName, $document->Output($documentFileName, "S"));
+
+    // Get file back from storage with the give header informations
+    return Storage::disk('public')->download($documentFileName, 'Request', $header);
+}
 }
