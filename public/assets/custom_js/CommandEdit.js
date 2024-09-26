@@ -914,6 +914,9 @@ $("#RegTableBody").on('click', '.editerReglement', function () {
     console.log(index);
     $("#storeReglement").hide();
     $("#updateReglement").show();
+    $("#btnValider").hide();
+    $("#btnModifier").show();
+
     // Trouver le bouton "delete" dans le même parent
     var deleteBtn = $(this).closest("tr").find(".deleteReglement");
     // Cacher le bouton "delete"
@@ -948,7 +951,7 @@ $("#RegTableBody").on('click', '.editerReglement', function () {
     $("#commentReg").val(comment);
     $("#index").val(index);
     $('#montantPayer').prop('readonly', false);
-    $("#btnValider").attr("id", "btnModifier");
+    // $("#btnValider").attr("id", "btnModifier");
 });
 
 // Lorsque la valeur du select change
@@ -1037,9 +1040,147 @@ $('select[name="reglement"]').trigger('change');
 // });
 
 
+// $("#btnValider").on("click", function (e) {
+//     e.preventDefault();
+//     if ($(this).attr("id") === "btnValider") {
+//         var montantTotalPayer = 0;
+//         // var data = JSON.parse(localStorage.getItem("reglements")) || [];
+//         var commande = JSON.parse(localStorage.getItem("product_commandEdit"));
+//         var data = commande.detailsReglement;
+//         if (data && data.length > 0) {
+//             // Calcule le prix hors taxe
+//             montantTotalPayer = data.reduce(
+//                 (acc, reg) => acc + reg.amount_reg,
+//                 0
+//             );
+//         }
+//         var reg = Object.assign({}, newReglement);
+//         var document_id = commande.object.id;
+//         var parent_id = commande.object.client_id;
+//         console.log(montantTotalPayer);
+//         var total_ttc = parseFloat($("#total_ttc").text());
+//         var total_ht = parseFloat($("#total_ht").text());
+//         var total_ttva = parseFloat($("#total_ttva").text());
+//         var modePaiment = $('select[name="reglement"]').val();
+//         var num_order = $("#check_ref").val();
+//         var comment = $("#commentReg").val();
+//         var montantPayer = parseFloat($("#montantPayer").val());
+
+//         reg.document_id = document_id;
+//         reg.parent_id = parent_id;
+//         reg.mode_reg = modePaiment;
+//         reg.num_order = num_order;
+//         reg.comment = comment;
+//         reg.amount_reg = montantPayer;
+//         var dateObj = new Date();
+//         // Formate la date selon le format YYYY-MM-DD HH:MM:SS
+//         reg.date_reg = dateObj.toISOString().slice(0, 19).replace('T', ' ');
+//         if (modePaiment !== "" && comment !=="") {
+
+//              if (montantPayer + montantTotalPayer <= total_ttc && montantPayer > 0) {
+//                  var total_restanter = total_ttc - (montantPayer + montantTotalPayer);
+//                  $("#total_restanter").text(total_restanter.toFixed(2));
+//                  if (total_restanter === 0) {
+//                      $('#montantPayer').val(0);
+//                      $('#montantPayer').prop('readonly', true);
+//                  }
+//                  data.push(reg);
+//                  // reglements.push(reg);
+//                  localStorage.setItem("product_commandEdit", JSON.stringify(commande));
+//                  // console.log(total_restanter);
+//                  tableReglements();
+//                  $('#montantPayer').val(0);
+//                  $('#commentReg').val("");
+//                  $('#check_ref').val("");
+//                  $('select[name="reglement"]').val("").trigger('change.select2'); // Déselectionner l'option
+//              } else {
+//                  console.log("le montant entrer est plus grand que le reste à payer !");
+//                  Swal.fire(
+//                      "Super!",
+//                      "Le montant saisi n'est as valide ou plus grand que le reste à payer",
+//                      "error"
+//                  );
+//              }
+
+//         } else {
+//             Swal.fire(
+//                 "Super!",
+//                 "Veuillez choisir le mode de paiement et saisir un commentaire",
+//                 "error"
+//             );
+//        }
+//         console.log("Action du bouton Valider");
+//     } else if ($(this).attr("id") === "btnModifier") {
+//         // Réafficher tous les boutons "delete" cachés
+//         $(".deleteReglement.hidden").show();
+//         // Récupérer l'index de l'élément à mettre à jour
+//         let index = $("#index").val();
+//         let montantTotalPayer = 0;
+//         let montantEdit = localStorage.getItem('montantEdit');
+//         // Récupérer les données actuelles depuis le localStorage
+//         let object = JSON.parse(localStorage.getItem("product_commandEdit"));
+//         let data = object.detailsReglement;
+//         let commande = object.object;
+//         if (data && data.length > 0) {
+//             // Calcule le prix hors taxe
+//             montantTotalPayer = data.reduce(
+//                 (acc, reg) => acc + reg.amount_reg,
+//                 0
+//             );
+//         }
+//         // Vérifier que l'index est valide
+//         if (index >= 0 && index < data.length) {
+//             // Récupérer les nouvelles valeurs du formulaire
+//             let modePaiment = $('select[name="reglement"]').val();
+//             let num_order = $("#check_ref").val();
+//             if (modePaiment !== 'Cheque') {
+//                 num_order = "";
+//             }
+//             let comment = $("#commentReg").val();
+//             let montantPayer = parseFloat($("#montantPayer").val());
+//             let total_restanter = parseFloat($("#total_restanter").text());
+//             let total_ttc = parseFloat($("#total_ttc").text());
+
+
+//             if (montantPayer + montantTotalPayer - montantEdit <= total_ttc && montantPayer > 0) {
+//                 total_restanter = total_ttc - (montantPayer + montantTotalPayer - montantEdit);
+//                 $("#total_restanter").text(total_restanter.toFixed(2));
+//                 if (total_restanter === 0) {
+//                     $('#montantPayer').val(0);
+//                     $('#montantPayer').prop('readonly', true);
+//                 }
+//             }
+
+//             // Mettre à jour les valeurs de l'élément sélectionné
+//             data[index].mode_reg = modePaiment;
+//             data[index].num_order = num_order;
+//             data[index].comment = comment;
+//             data[index].amount_reg = montantPayer;
+//             commande.total_restant = total_restanter;
+//             commande.total_payant = montantTotalPayer;
+
+//             // Mettre à jour le localStorage avec les données mises à jour
+//             localStorage.setItem("product_commandEdit", JSON.stringify(object));
+
+//             // Actualiser la vue
+//             tableReglements();
+
+//             // Effacer les champs du formulaire ou effectuer d'autres actions nécessaires
+//             $('#montantPayer').val(0);
+//             $('#total_restanter').val(total_restanter);
+//             $('#commentReg').val("");
+//             $('#check_ref').val("");
+//             $('select[name="reglement"]').val("").trigger('change.select2');
+//             $(this).attr("id", "btnValider");
+//         } else {
+//             console.log("Index invalide !");
+//         }
+//         console.log("Action du bouton Modifier");
+//     }
+// });
+
 $("#btnValider").on("click", function (e) {
     e.preventDefault();
-    if ($(this).attr("id") === "btnValider") {
         var montantTotalPayer = 0;
         // var data = JSON.parse(localStorage.getItem("reglements")) || [];
         var commande = JSON.parse(localStorage.getItem("product_commandEdit"));
@@ -1072,32 +1213,32 @@ $("#btnValider").on("click", function (e) {
         var dateObj = new Date();
         // Formate la date selon le format YYYY-MM-DD HH:MM:SS
         reg.date_reg = dateObj.toISOString().slice(0, 19).replace('T', ' ');
-        if (modePaiment !== "" && comment !=="") {
+        if (modePaiment !== "" && comment !== "") {
 
-             if (montantPayer + montantTotalPayer <= total_ttc && montantPayer > 0) {
-                 var total_restanter = total_ttc - (montantPayer + montantTotalPayer);
-                 $("#total_restanter").text(total_restanter.toFixed(2));
-                 if (total_restanter === 0) {
-                     $('#montantPayer').val(0);
-                     $('#montantPayer').prop('readonly', true);
-                 }
-                 data.push(reg);
-                 // reglements.push(reg);
-                 localStorage.setItem("product_commandEdit", JSON.stringify(commande));
-                 // console.log(total_restanter);
-                 tableReglements();
-                 $('#montantPayer').val(0);
-                 $('#commentReg').val("");
-                 $('#check_ref').val("");
-                 $('select[name="reglement"]').val("").trigger('change.select2'); // Déselectionner l'option
-             } else {
-                 console.log("le montant entrer est plus grand que le reste à payer !");
-                 Swal.fire(
-                     "Super!",
-                     "Le montant saisi n'est as valide ou plus grand que le reste à payer",
-                     "error"
-                 );
-             }
+            if (montantPayer + montantTotalPayer <= total_ttc && montantPayer > 0) {
+                var total_restanter = total_ttc - (montantPayer + montantTotalPayer);
+                $("#total_restanter").text(total_restanter.toFixed(2));
+                if (total_restanter === 0) {
+                    $('#montantPayer').val(0);
+                    $('#montantPayer').prop('readonly', true);
+                }
+                data.push(reg);
+                // reglements.push(reg);
+                localStorage.setItem("product_commandEdit", JSON.stringify(commande));
+                // console.log(total_restanter);
+                tableReglements();
+                $('#montantPayer').val(0);
+                $('#commentReg').val("");
+                $('#check_ref').val("");
+                $('select[name="reglement"]').val("").trigger('change.select2'); // Déselectionner l'option
+            } else {
+                console.log("le montant entrer est plus grand que le reste à payer !");
+                Swal.fire(
+                    "Super!",
+                    "Le montant saisi n'est as valide ou plus grand que le reste à payer",
+                    "error"
+                );
+            }
 
         } else {
             Swal.fire(
@@ -1105,11 +1246,17 @@ $("#btnValider").on("click", function (e) {
                 "Veuillez choisir le mode de paiement et saisir un commentaire",
                 "error"
             );
-       }
+        }
         console.log("Action du bouton Valider");
-    } else if ($(this).attr("id") === "btnModifier") {
+
+});
+
+
+$("#btnModifier").on("click", function (e) {
+    e.preventDefault();
         // Réafficher tous les boutons "delete" cachés
-        $(".deleteReglement.hidden").show();
+        // $(".deleteReglement.hidden").show();
+        $(".deleteReglement").show();
         // Récupérer l'index de l'élément à mettre à jour
         let index = $("#index").val();
         let montantTotalPayer = 0;
@@ -1138,43 +1285,55 @@ $("#btnValider").on("click", function (e) {
             let total_restanter = parseFloat($("#total_restanter").text());
             let total_ttc = parseFloat($("#total_ttc").text());
 
+            console.log("montantPayer : " + montantPayer);
+            console.log("montantTotalPayer : " + montantTotalPayer);
+            console.log("montantEdit : " + montantEdit);
 
             if (montantPayer + montantTotalPayer - montantEdit <= total_ttc && montantPayer > 0) {
                 total_restanter = total_ttc - (montantPayer + montantTotalPayer - montantEdit);
                 $("#total_restanter").text(total_restanter.toFixed(2));
+                // Mettre à jour les valeurs de l'élément sélectionné
+                data[index].mode_reg = modePaiment;
+                data[index].num_order = num_order;
+                data[index].comment = comment;
+                data[index].amount_reg = montantPayer;
+                commande.total_restant = total_restanter;
+                commande.total_payant = montantTotalPayer;
+
+                // Mettre à jour le localStorage avec les données mises à jour
+                localStorage.setItem("product_commandEdit", JSON.stringify(object));
+
+                // Actualiser la vue
+                tableReglements();
+
+                // Effacer les champs du formulaire ou effectuer d'autres actions nécessaires
+                $('#montantPayer').val(0);
+                $('#total_restanter').val(total_restanter);
+                $('#commentReg').val("");
+                $('#check_ref').val("");
+                $('select[name="reglement"]').val("").trigger('change.select2');
+                // $(this).attr("id", "btnValider");
+                $("#btnValider").show();
+                $(this).hide();
                 if (total_restanter === 0) {
                     $('#montantPayer').val(0);
                     $('#montantPayer').prop('readonly', true);
                 }
+            } else {
+                console.log("le montant entrer est plus grand que le reste à payer !");
+                Swal.fire(
+                    "Super!",
+                    "Le montant saisi n'est as valide ou plus grand que le reste à payer",
+                    "error"
+                );
             }
 
-            // Mettre à jour les valeurs de l'élément sélectionné
-            data[index].mode_reg = modePaiment;
-            data[index].num_order = num_order;
-            data[index].comment = comment;
-            data[index].amount_reg = montantPayer;
-            commande.total_restant = total_restanter;
-            commande.total_payant = montantTotalPayer;
-
-            // Mettre à jour le localStorage avec les données mises à jour
-            localStorage.setItem("product_commandEdit", JSON.stringify(object));
-
-            // Actualiser la vue
-            tableReglements();
-
-            // Effacer les champs du formulaire ou effectuer d'autres actions nécessaires
-            $('#montantPayer').val(0);
-            $('#total_restanter').val(total_restanter);
-            $('#commentReg').val("");
-            $('#check_ref').val("");
-            $('select[name="reglement"]').val("").trigger('change.select2');
-            $(this).attr("id", "btnValider");
         } else {
             console.log("Index invalide !");
         }
         console.log("Action du bouton Modifier");
-    }
 });
+
 
 $(".storeReglement").on("click", function (e) {
     e.preventDefault();

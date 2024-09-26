@@ -65,6 +65,8 @@
                     <div class="col-md-2 mt-4">
                         <a href="#" id="btnValider" class="btn btn-primary text-light  w-100"><i
                                 class="las la-check"></i></a>
+                                <a href="#" id="btnModifier" class="btn btn-success text-light  w-100" style="display: none;"><i
+                                    class="las la-check" ></i></a>
                     </div>
                     <div class="col-md-12 col-xl-12 col-xs-12 col-sm-12">
                         <div class="form-group">

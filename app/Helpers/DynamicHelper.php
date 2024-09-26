@@ -11,7 +11,7 @@ use App\Models\Driver;
 if (!function_exists('cars')) {
     function cars()
     {
-        return Car::where('active', 1)->pluck('type','id');
+        return Car::where('active', 1)->pluck('type','id') ?? [];
     }
 }
 

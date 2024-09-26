@@ -139,12 +139,60 @@ class ReglementController extends Controller
      * @param  \App\Models\Reglement  $reglement
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreReglementRequest $request, string $id)
+    public function update(Request $request, $commandId)
     {
-        $validated = $request->validated();
-        $this->crudService->updateRecord(new Reglement(), $validated, $id);
-        return redirect()->route('reglements.index');
+        // Récupérer les données de la requête
+        $data = $request->all();
+
+        // Trouver la commande par son ID
+        $command = Command::findOrFail($commandId);
+
+        // Pour chaque règlement à mettre à jour
+        foreach ($data['reglements'] as $item) {
+            // Trouver le règlement par son ID
+            $reglement = Reglement::findOrFail($item['id']);
+
+            // Calculer les différences en montant
+            $previous_amount = $reglement->amount_reg;
+            $new_amount = $item['amount_reg'] ?? $previous_amount;
+
+            // Mettre à jour les propriétés du règlement
+            $reglement->reg_code = $item['reg_code'] ?? $reglement->reg_code;
+            $reglement->document_id = $item['document_id'] ?? $reglement->document_id;
+            $reglement->document_type = $item['document_type'] ?? $reglement->document_type;
+            $reglement->date_reg = $item['date_reg'] ?? $reglement->date_reg;
+            $reglement->amount_reg = $new_amount;
+            $reglement->mode_reg = $item['mode_reg'] ?? $reglement->mode_reg;
+            $reglement->nature_reg = $item['nature_reg'] ?? $reglement->nature_reg;
+            $reglement->parent_type = $item['parent_type'] ?? $reglement->parent_type;
+            $reglement->parent_id = $item['parent_id'] ?? $reglement->parent_id;
+            $reglement->comment = $item['comment'] ?? $reglement->comment;
+
+            // Sauvegarder les modifications du règlement
+            $reglement->save();
+
+            // Mettre à jour le total du commandement en fonction du montant modifié
+            $command->total_restant += $previous_amount - $new_amount;
+            $command->total_payant += $new_amount - $previous_amount;
+        }
+
+        // Si nécessaire, changer le statut du commandement
+        if ($command->total_restant <= 0) {
+            $command->status = 'Validé';
+        }
+
+        // Sauvegarder les modifications du commandement
+        $command->save();
+
+        // Retourner une réponse JSON
+        return response()->json(['success' => true]);
     }
+    // public function update(StoreReglementRequest $request, string $id)
+    // {
+    //     $validated = $request->validated();
+    //     $this->crudService->updateRecord(new Reglement(), $validated, $id);
+    //     return redirect()->route('reglements.index');
+    // }
 
     /**
      * Remove the specified resource from storage.

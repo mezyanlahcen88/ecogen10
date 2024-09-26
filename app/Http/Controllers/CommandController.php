@@ -421,7 +421,8 @@ class CommandController extends Controller
 
 public function manageReglement($commandId) {
   $object = Command::with('reglements')->findOrFail($commandId);
-  return view('commands.edit_reglement', compact('object'));
-//   return $command;
+  $reglements = $this->staticOptions::GARANTIES_TYPES;
+
+  return view('commands.edit_reglement', compact('object','reglements'));
 }
 }
