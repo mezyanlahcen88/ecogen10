@@ -94,14 +94,19 @@ Route::group(['middleware' => 'auth'], function () {
     ############################### Garanty ###############################
     require __DIR__ . '/base/garantyRoute.php';
     ############################### Command ###############################
-require __DIR__ . '/base/commandRoute.php';
-############################### Reglement ###############################
-require __DIR__ . '/base/reglementRoute.php';
-############################### Delivery ###############################
-require __DIR__ . '/base/deliveryRoute.php';
+    require __DIR__ . '/base/commandRoute.php';
+    ############################### Reglement ###############################
+    require __DIR__ . '/base/reglementRoute.php';
+    ############################### Delivery ###############################
+    require __DIR__ . '/base/deliveryRoute.php';
+    ############################### Purchase ###############################
+    require __DIR__ . '/base/purchaseRoute.php';
 
+    //copy this two lines in web.php
+    ############################### Reception ###############################
+    require __DIR__ . '/base/receptionRoute.php';
     ############################### ReloadController ###############################
     Route::prefix('/')->group(__DIR__ . '/base/reload.routes.php');
 
-Route::get('/fun', [FunController::class, 'document']);
+    Route::get('/fun', [FunController::class, 'document']);
 });
